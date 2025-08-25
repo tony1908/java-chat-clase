@@ -44,7 +44,7 @@ public class KafkaConsumerService {
         if (running.compareAndSet(false, true)) {
             consumer.subscribe(Collections.singletonList(TOPIC_NAME));
 
-            Thread consumerThread = new Thread(this::consume)
+            Thread consumerThread = new Thread(this::consume);
             consumerThread.setDaemon(true);
             consumerThread.setName("kafka-consumer");
             consumerThread.start();       
@@ -65,7 +65,7 @@ public class KafkaConsumerService {
                         if (messageHandler != null) {
                             messageHandler.accept(chatMessage);
                         }
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -77,5 +77,11 @@ public class KafkaConsumerService {
             consumer.close();
         }
     }
-    
+
+    public void stop() {
+        running.set(false);
+        if (consumer != null) {
+            consumer.close();
+        }
+    }
 }
