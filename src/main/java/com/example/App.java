@@ -24,6 +24,8 @@ public class App
 
         consumerService.start();
 
+        ChatWebSocket.setProducerService(producerService);
+
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(8080);
